@@ -1,0 +1,19 @@
+# Environment / secrets
+.env
+api/.env
+
+# Local database / generated files
+database.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Editor / OS files
+.vscode/
+.codex/
+.DS_Store
+Thumbs.db
+
+# Uploaded files can contain private/customer content
+uploads/*
+!uploads/.gitkeep
