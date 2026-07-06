@@ -90,7 +90,6 @@ require_once 'includes/header.php';
         </select>
         <button type="submit" class="btn btn-primary">Search</button>
         <a href="products.php" class="btn btn-secondary">Reset</a>
-        <a href="add_product.php" class="btn btn-success">+ Add Product</a>
     </form>
 </div>
 
