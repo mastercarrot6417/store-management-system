@@ -59,6 +59,69 @@ export async function createCustomer(sql: postgres.Sql, fullName = "Test Custome
   return Number(row!.id);
 }
 
+export type TestColour = {
+  name: string;
+  code?: string;
+  isDefault?: boolean;
+  sizes?: { size: string; quantity: number }[];
+  images?: string[];
+};
+
+export type TestProduct = {
+  name?: string;
+  itemCode?: string;
+  brand?: string;
+  category?: string;
+  subCategory?: string;
+  status?: "ACTIVE" | "HIDDEN" | "OUT_OF_STOCK";
+  price?: number;
+  costPrice?: number;
+  onlineSellPrice?: number;
+  description?: string;
+  arrivalDate?: string;
+  legacyImage?: string;
+  colours?: TestColour[];
+};
+
+/** Creates a product with its colours, sizes and images. Returns the product ID and its unique name. */
+export async function createProduct(sql: postgres.Sql, p: TestProduct = {}) {
+  const name = p.name ?? unique("Test Helmet");
+  const [row] = await sql<{ id: string }[]>`
+    INSERT INTO products (item_code, name, brand, category, sub_category, status, price, cost_price, online_sell_price, description, image, arrival_date)
+    VALUES (
+      ${p.itemCode ?? unique("ITEM")}, ${name}, ${p.brand ?? "KYT"}, ${p.category ?? "Helmet"}, ${p.subCategory ?? "Full Face Helmet"},
+      ${p.status ?? "ACTIVE"}, ${p.price ?? 199}, ${p.costPrice ?? 0}, ${p.onlineSellPrice ?? 0}, ${p.description ?? ""},
+      ${p.legacyImage ?? ""}, ${p.arrivalDate ?? null}
+    )
+    RETURNING id`;
+  const productId = Number(row!.id);
+
+  for (const colour of p.colours ?? []) {
+    const [c] = await sql<{ id: string }[]>`
+      INSERT INTO product_colors (product_id, color_name, color_code, is_default)
+      VALUES (${productId}, ${colour.name}, ${colour.code ?? "#000000"}, ${colour.isDefault ?? false})
+      RETURNING id`;
+    const colourId = Number(c!.id);
+    for (const s of colour.sizes ?? []) {
+      await sql`INSERT INTO product_sizes (product_id, color_id, size, quantity) VALUES (${productId}, ${colourId}, ${s.size}, ${s.quantity})`;
+    }
+    for (const [index, path] of (colour.images ?? []).entries()) {
+      await sql`
+        INSERT INTO product_images (product_id, color_id, image_path, sort_order, is_main)
+        VALUES (${productId}, ${colourId}, ${path}, ${index}, ${index === 0})`;
+    }
+  }
+  return { id: productId, name };
+}
+
+/** A product with one colour and stock, which is what most tests need. */
+export function inStockProduct(overrides: TestProduct = {}): TestProduct {
+  return {
+    colours: [{ name: "Black", isDefault: true, sizes: [{ size: "M", quantity: 3 }], images: ["uploads/test-black.jpg"] }],
+    ...overrides,
+  };
+}
+
 export async function login(sql: postgres.Sql, type: UserType, userId: number) {
   const token = await createSessionRow(sql, type, userId);
   const cookieName = type === "admin" ? "mdb_admin" : "mdb_customer";

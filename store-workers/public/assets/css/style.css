@@ -4625,9 +4625,9 @@ body.mobile-menu-active {
     border-color: #ff7a00;
 }
 
-/* Hide the drawer only where the hamburger is hidden too (above 980px, see the max-width: 980px rule below).
-   Was 769px, which left 769-980px with a menu button that did nothing. */
-@media (min-width: 981px) {
+/* Hide the drawer only where the hamburger is hidden too (above 1290px, see the max-width: 1290px rule below).
+   Was 769px, which left tablet widths with a menu button that did nothing. */
+@media (min-width: 1291px) {
     .mobile-menu-overlay,
     .mobile-menu-drawer {
         display: none !important;
@@ -4863,7 +4863,9 @@ body.public-page .navbar .nav-links .mobile-auth-link {
     display: none !important;
 }
 
-@media (max-width: 1180px) {
+/* Compact navbar. Was max-width 1180px, but the full-size navbar (~1350px wide)
+   overflowed every screen from 1181px to ~1350px, pushing Account off-screen. */
+@media (max-width: 1360px) {
     body.public-page .desktop-navbar {
         padding: 0 22px;
     }
@@ -4879,7 +4881,9 @@ body.public-page .navbar .nav-links .mobile-auth-link {
     }
 }
 
-@media (max-width: 980px) {
+/* Switch to the menu button at 1290px and below. Was 980px, but even the compact navbar
+   (~1280px wide) overflowed every screen below ~1280px. Keep in sync with the drawer rule above. */
+@media (max-width: 1290px) {
     body.public-page .desktop-nav-links,
     .nav-account-dropdown {
         display: none !important;

@@ -2,7 +2,7 @@ import type { Child } from "hono/jsx";
 import { raw } from "hono/html";
 
 /** Bump when CSS/JS in public/ changes, so browsers fetch the new files. */
-const ASSET_VERSION = "2";
+const ASSET_VERSION = "4";
 
 export function asset(path: string): string {
   return `${path}?v=${ASSET_VERSION}`;
@@ -34,6 +34,7 @@ export function Document(props: DocumentProps) {
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           {props.description && <meta name="description" content={props.description} />}
           <title>{props.title}</title>
+          <link rel="icon" type="image/png" href="/company_logo/ori.logo.png" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
           <link href={FONTS[props.fonts]} rel="stylesheet" />

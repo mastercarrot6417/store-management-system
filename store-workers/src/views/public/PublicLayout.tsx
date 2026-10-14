@@ -15,6 +15,9 @@ type PublicLayoutProps = {
   active?: ActiveNav;
   search?: string;
   extraStylesheets?: string[];
+  extraScripts?: string[];
+  /** Added after "public-page", e.g. "product-detail-page". */
+  bodyClass?: string;
   children: Child;
 };
 
@@ -25,9 +28,9 @@ export function PublicLayout(props: PublicLayoutProps) {
       title={props.title}
       description={props.description ?? "My Dream Bike — Premium motorcycle helmets, riding apparel, and accessories."}
       fonts="public"
-      bodyClass="public-page"
+      bodyClass={props.bodyClass ? `public-page ${props.bodyClass}` : "public-page"}
       stylesheets={["/assets/css/style.css", ...(props.extraStylesheets ?? [])]}
-      scripts={["/assets/js/app.js"]}
+      scripts={["/assets/js/app.js", "/assets/js/image-fallback.js", ...(props.extraScripts ?? [])]}
     >
       <Navbar active={props.active ?? null} search={props.search ?? ""} isLoggedIn={props.customer !== null} />
       <MobileMenu isLoggedIn={props.customer !== null} customerName={props.customer?.fullName ?? ""} />
