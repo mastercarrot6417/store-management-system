@@ -101,11 +101,11 @@ Also add redirects from the old `.php` addresses (for example `product_detail.ph
 - [x] Product images served from R2 at the same `/uploads/...` paths
 
 ### Phase 3: Logins (week 5)
-- [ ] Customer login, signup and Google login
-- [ ] Admin login and Google login, with the boss/admin roles
-- [ ] Rate limiting on all login forms
-- [ ] A new session ID on every login
-- [ ] Test the `$2y$` → `$2a$` password check with real hashes
+- [x] Customer login, signup and Google login (+ account page and logout)
+- [x] Admin login and Google login, with the boss/admin roles
+- [x] Rate limiting on all login forms (10 per minute per IP and per email)
+- [x] A new session ID on every login
+- [x] Test the `$2y$` → `$2a$` password check with real hashes (checked both ways with real PHP hashes; bcryptjs accepts $2y$ directly)
 
 ### Phase 4: Admin (weeks 6–8)
 - [ ] Dashboard

@@ -11,3 +11,10 @@ export type AppVariables = DbVariables & {
 };
 
 export type AppEnv = { Bindings: Env; Variables: AppVariables };
+
+declare global {
+  interface Env {
+    /** Optional secret (`npx wrangler secret put GOOGLE_CLIENT_SECRET`). Google login is hidden without it. */
+    GOOGLE_CLIENT_SECRET?: string;
+  }
+}
