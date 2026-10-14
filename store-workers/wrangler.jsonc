@@ -1,6 +1,8 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "store-management-system",
+  // Shenmpang1@gmail.com's Account. Pinned so wrangler can never deploy this to another account.
+  "account_id": "9d997b3c1ae96e000381927fc2cc6ac2",
   "main": "src/index.tsx",
   "compatibility_date": "2026-10-01",
   // postgres.js needs Node.js APIs (net, tls, crypto).
