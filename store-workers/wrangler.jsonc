@@ -1,0 +1,30 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "store-workers",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  // postgres.js needs Node.js APIs (net, tls, crypto).
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+
+  "hyperdrive": [
+    {
+      // Public shop pages: read queries may be cached for a short time.
+      "binding": "HYPERDRIVE",
+      "id": "REPLACE_WITH_CACHED_HYPERDRIVE_ID"
+    },
+    {
+      // Admin, stock and checkout: caching disabled so stock is never stale.
+      "binding": "HYPERDRIVE_NOCACHE",
+      "id": "REPLACE_WITH_NOCACHE_HYPERDRIVE_ID"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "IMAGES",
+      "bucket_name": "store-images",
+      "preview_bucket_name": "store-images-dev"
+    }
+  ]
+}
