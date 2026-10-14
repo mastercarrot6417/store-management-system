@@ -9,6 +9,12 @@
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true },
 
+  // No public store-management-system.<subdomain>.workers.dev address until go-live.
+  "workers_dev": false,
+  // Each uploaded version (e.g. from a branch build) gets its own preview link:
+  // <version>-store-management-system.shenmpang1.workers.dev
+  "preview_urls": true,
+
   // CSS, JS and images. Files here are served directly; everything else goes to the Worker.
   "assets": { "directory": "./public" },
 
