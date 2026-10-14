@@ -12,6 +12,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PGlite } from "@electric-sql/pglite";
 import { PGLiteSocketServer } from "@electric-sql/pglite-socket";
+import bcrypt from "bcryptjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const DB_PORT = 54330;
@@ -33,11 +34,17 @@ async function demoSession(userType, userId) {
   return token;
 }
 
+// Local-only demo password for both demo accounts (stored in PHP's $2y$ format like real ones).
+const DEMO_PASSWORD = "demo-password";
+const demoHash = bcrypt.hashSync(DEMO_PASSWORD, 10).replace(/^\$2[ab]\$/, "$2y$");
+
 const { rows: [admin] } = await db.query(
-  `INSERT INTO admin (email, password, role, display_name) VALUES ('demo-boss@local.test', '-', 'boss', 'Demo Boss') RETURNING id`,
+  `INSERT INTO admin (email, password, role, display_name) VALUES ('demo-boss@local.test', $1, 'boss', 'Demo Boss') RETURNING id`,
+  [demoHash],
 );
 const { rows: [customer] } = await db.query(
-  `INSERT INTO customers (full_name, email, password) VALUES ('Demo Customer', 'demo-customer@local.test', '-') RETURNING id`,
+  `INSERT INTO customers (full_name, email, password) VALUES ('Demo Customer', 'demo-customer@local.test', $1) RETURNING id`,
+  [demoHash],
 );
 const adminToken = await demoSession("admin", admin.id);
 const customerToken = await demoSession("customer", customer.id);
@@ -103,11 +110,14 @@ for (const file of DEMO_IMAGES) {
   if (result.status !== 0) console.warn(`Could not copy ${file} into local R2.`);
 }
 
-const server = new PGLiteSocketServer({ db, host: "127.0.0.1", port: DB_PORT, maxConnections: 20 });
+const server = new PGLiteSocketServer({ db, host: "127.0.0.1", port: DB_PORT, maxConnections: 200 });
 await server.start();
 
 console.log(`
 Local database ready (in memory, nothing is saved).
+Demo logins (password: ${DEMO_PASSWORD}):
+  Admin:    http://localhost:8787/admin/login  demo-boss@local.test
+  Customer: http://localhost:8787/login        demo-customer@local.test
 To view pages as a logged-in user, set one of these cookies on http://localhost:8787
 (browser dev tools > Application > Cookies), then reload:
   Admin    (path /admin):  mdb_admin=${adminToken}

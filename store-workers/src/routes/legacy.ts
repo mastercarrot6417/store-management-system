@@ -16,7 +16,9 @@ const MOVED: Record<string, string> = {
   "/signup.php": "/signup",
   "/user_page.php": "/account",
   "/logout.php": "/logout",
+  "/google_login.php": "/auth/google",
   "/admin/login.php": "/admin/login",
+  "/admin/logout.php": "/admin/logout",
   "/admin/dashboard.php": "/admin",
 };
 

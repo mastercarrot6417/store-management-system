@@ -20,7 +20,7 @@ export default async function setup() {
   }
   await db.exec(`CREATE TABLE ${TEST_DB_MARKER_TABLE} (id INTEGER)`);
 
-  const server = new PGLiteSocketServer({ db, host: "127.0.0.1", port: TEST_DB_PORT, maxConnections: 20 });
+  const server = new PGLiteSocketServer({ db, host: "127.0.0.1", port: TEST_DB_PORT, maxConnections: 200 });
   await server.start();
 
   return async () => {

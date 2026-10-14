@@ -25,8 +25,20 @@
     // Google Maps Embed API key for the homepage map. It's visible in the page anyway,
     // so it isn't a secret: restrict it to your domain in Google Cloud Console.
     // Empty = show a "Find us in-store" box instead of the map.
-    "GOOGLE_MAPS_API_KEY": ""
+    "GOOGLE_MAPS_API_KEY": "",
+    // Google OAuth client ID for "Continue with Google" (customers and admins).
+    // Empty = Google buttons are hidden. The client secret is the GOOGLE_CLIENT_SECRET secret.
+    "GOOGLE_CLIENT_ID": ""
   },
+
+  // Login / sign-up attempts: at most 10 per minute per IP address and per email.
+  "ratelimits": [
+    {
+      "name": "LOGIN_LIMITER",
+      "namespace_id": "1001",
+      "simple": { "limit": 10, "period": 60 }
+    }
+  ],
 
   // Set with `npx wrangler secret put <NAME>`; locally in .env (see .env.example).
   "secrets": {

@@ -28,11 +28,21 @@ export function fetchApp(path: string, init: RequestInit = {}): Promise<Response
   return exports.default.fetch(new Request(`${ORIGIN}${path}`, { redirect: "manual", ...init }));
 }
 
-/** A form POST from the shop's own pages (same-origin), as a browser would send it. */
-export function postForm(path: string, fields: Record<string, string>, cookie?: string): Promise<Response> {
+/** A random visitor IP, so tests don't share the login rate limit. */
+export function randomIp(): string {
+  const [a, b, c] = crypto.getRandomValues(new Uint8Array(3));
+  return `10.${a}.${b}.${c}`;
+}
+
+/**
+ * A form POST from the shop's own pages (same-origin), as a browser would send it.
+ * Each call looks like a different visitor (random IP) unless `ip` is given.
+ */
+export function postForm(path: string, fields: Record<string, string>, cookie?: string, ip = randomIp()): Promise<Response> {
   const headers: Record<string, string> = {
     "Content-Type": "application/x-www-form-urlencoded",
     Origin: ORIGIN,
+    "CF-Connecting-IP": ip,
   };
   if (cookie) headers.Cookie = cookie;
   return fetchApp(path, { method: "POST", headers, body: new URLSearchParams(fields).toString() });

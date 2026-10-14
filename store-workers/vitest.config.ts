@@ -12,7 +12,11 @@ export default defineConfig({
     cloudflareTest({
       wrangler: { configPath: "./wrangler.jsonc" },
       miniflare: {
-        bindings: { COOKIE_SECRET: "test-only-cookie-secret-at-least-32-characters-long" },
+        bindings: {
+          COOKIE_SECRET: "test-only-cookie-secret-at-least-32-characters-long",
+          GOOGLE_CLIENT_ID: "test-google-client-id",
+          GOOGLE_CLIENT_SECRET: "test-google-client-secret",
+        },
         hyperdrives: { HYPERDRIVE: TEST_DB_URL, HYPERDRIVE_NOCACHE: TEST_DB_URL },
       },
     }),

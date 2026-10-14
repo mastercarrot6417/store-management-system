@@ -1,5 +1,4 @@
 import { Hono, type Context } from "hono";
-import type { Child } from "hono/jsx";
 import { raw } from "hono/html";
 import { storeMapLink } from "../lib/config";
 import { featuredProducts, getProductPage, listProducts, newArrivals, type ProductFilters } from "../lib/products";
@@ -10,36 +9,16 @@ import privacyHtml from "../views/legal/privacy.html";
 import termsHtml from "../views/legal/terms.html";
 import { HomePage } from "../views/public/HomePage";
 import { ProductPage } from "../views/public/ProductPage";
-import { PublicLayout } from "../views/public/PublicLayout";
 import { ResultsPage } from "../views/public/ResultsPage";
+import accountRoutes from "./account";
+import { renderPublic } from "./render";
 
 const publicRoutes = new Hono<AppEnv>();
 
 publicRoutes.use("*", customerSessionMiddleware);
 
-type LayoutOptions = {
-  title: string;
-  description?: string;
-  active?: string | null;
-  search?: string;
-  bodyClass?: string;
-  extraStylesheets?: string[];
-  extraScripts?: string[];
-};
-
-/** Renders a page inside the public layout with the visitor's login state and flash message. */
-function renderPublic(c: Context<AppEnv>, options: LayoutOptions, content: Child) {
-  return c.html(
-    <PublicLayout
-      {...options}
-      customer={c.var.customerSession?.user ?? null}
-      flash={c.var.flash}
-      mapLink={storeMapLink(c.env)}
-    >
-      {content}
-    </PublicLayout>,
-  );
-}
+// Login, sign-up, account and Google login (src/routes/account.tsx).
+publicRoutes.route("/", accountRoutes);
 
 /** Reads a text query parameter, trimmed and length-limited. */
 function queryText(c: Context<AppEnv>, name: string): string {

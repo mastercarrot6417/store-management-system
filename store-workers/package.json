@@ -13,6 +13,7 @@
     "db:copy-catalogue": "node --env-file-if-exists=.env scripts/copy-catalogue.mjs"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "hono": "^4.13.13",
     "postgres": "^3.4.9"
   },
