@@ -1,11 +1,25 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "store-workers",
-  "main": "src/index.ts",
+  "main": "src/index.tsx",
   "compatibility_date": "2026-10-01",
   // postgres.js needs Node.js APIs (net, tls, crypto).
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true },
+
+  // CSS, JS and images. Files here are served directly; everything else goes to the Worker.
+  "assets": { "directory": "./public" },
+
+  "vars": {
+    "COMPANY_MAP_QUERY": "MY DREAM BIKE SDN BHD",
+    // Google Maps link for the store (footer "Store Location"). Empty = search link for the shop name.
+    "COMPANY_MAP_LINK": ""
+  },
+
+  // Set with `npx wrangler secret put <NAME>`; locally in .env (see .env.example).
+  "secrets": {
+    "required": ["COOKIE_SECRET"]
+  },
 
   "hyperdrive": [
     {
@@ -26,5 +40,10 @@
       "bucket_name": "store-images",
       "preview_bucket_name": "store-images-dev"
     }
-  ]
+  ],
+
+  "triggers": {
+    // 19:00 UTC = 03:00 Malaysia time: delete expired login sessions.
+    "crons": ["0 19 * * *"]
+  }
 }

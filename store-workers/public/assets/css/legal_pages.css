@@ -1,0 +1,297 @@
+/* ============================================================
+   Formal Legal Pages - My Dream Bike
+   Applies only to Cookie Notice, Privacy Policy, Terms & Conditions.
+   Navbar and footer styles remain controlled by assets/css/style.css.
+   ============================================================ */
+
+body.legal-page {
+    margin: 0;
+    background: #050505 !important;
+    color: #f5f5f5 !important;
+    font-family: 'Barlow', 'Segoe UI', Arial, sans-serif;
+    line-height: 1.7;
+}
+
+body.legal-page * {
+    box-sizing: border-box;
+}
+
+body.legal-page a {
+    text-decoration: none;
+}
+
+.legal-hero-section {
+    position: relative;
+    min-height: 330px;
+    padding: 86px 24px 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.96) 0%, rgba(0, 0, 0, 0.90) 45%, rgba(0, 0, 0, 0.78) 100%),
+        url('../../company_logo/Hero.image.webp') center right / cover no-repeat;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.legal-hero-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 35%, rgba(255, 122, 0, 0.13), transparent 30%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.52));
+    pointer-events: none;
+}
+
+.legal-hero-section::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 210px;
+    height: 5px;
+    transform: translateX(-50%);
+    background: #ff7a00;
+    border-radius: 999px 999px 0 0;
+}
+
+.legal-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 122, 0, 0.06), transparent 38%);
+    pointer-events: none;
+}
+
+.legal-hero-content {
+    position: relative;
+    z-index: 1;
+    width: min(1120px, 100%);
+    text-align: center;
+}
+
+.legal-page-label {
+    margin: 0 0 18px;
+    color: #ff7a00;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+}
+
+.legal-hero-content h1 {
+    margin: 0;
+    color: #ffffff;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 64px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+}
+
+.legal-breadcrumb {
+    margin-top: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.legal-breadcrumb a {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.legal-breadcrumb a:hover,
+.legal-breadcrumb span:last-child {
+    color: #ff7a00;
+}
+
+.legal-formal-shell {
+    width: min(1080px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 72px 0 82px;
+}
+
+.legal-formal-intro {
+    margin-bottom: 34px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.legal-kicker {
+    margin: 0 0 12px;
+    color: #ff7a00;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.legal-formal-intro h2 {
+    margin: 0 0 18px;
+    color: #ffffff;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 44px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.legal-formal-intro p {
+    max-width: 860px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 17px;
+}
+
+.legal-document-panel {
+    overflow: hidden;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
+}
+
+.legal-formal-section {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    gap: 24px;
+    padding: 30px 34px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.legal-formal-section:last-child {
+    border-bottom: 0;
+}
+
+.legal-section-number {
+    color: #ff7a00;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1;
+}
+
+.legal-formal-section h3 {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.legal-formal-section p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 15.5px;
+}
+
+.legal-formal-section p+p {
+    margin-top: 12px;
+}
+
+.legal-formal-section ul {
+    margin: 10px 0 0;
+    padding-left: 20px;
+    color: rgba(255, 255, 255, 0.70);
+}
+
+.legal-formal-section li {
+    margin-top: 7px;
+    padding-left: 2px;
+}
+
+.legal-contact-box {
+    margin-top: 34px;
+    padding: 30px 34px;
+    border-radius: 22px;
+    background:
+        linear-gradient(135deg, rgba(255, 122, 0, 0.10), transparent 36%),
+        rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.legal-contact-box h3 {
+    margin: 0 0 10px;
+    color: #ffffff;
+    font-family: 'Barlow Condensed', 'Barlow', Arial, sans-serif;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.legal-contact-box p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 15.5px;
+}
+
+.legal-contact-box p+p {
+    margin-top: 8px;
+}
+
+.legal-contact-box strong {
+    color: rgba(255, 255, 255, 0.90);
+}
+
+@media (max-width: 800px) {
+    .legal-hero-section {
+        min-height: 280px;
+        padding: 68px 18px 62px;
+    }
+
+    .legal-page-label {
+        font-size: 17px;
+    }
+
+    .legal-breadcrumb {
+        font-size: 15px;
+    }
+
+    .legal-formal-shell {
+        width: min(100% - 30px, 1080px);
+        padding: 48px 0 58px;
+    }
+
+    .legal-formal-section {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 24px;
+    }
+
+    .legal-section-number {
+        font-size: 24px;
+    }
+
+    .legal-formal-section h3,
+    .legal-contact-box h3 {
+        font-size: 24px;
+    }
+
+    .legal-contact-box {
+        padding: 24px;
+    }
+
+    .legal-hero-content h1 {
+        font-size: 42px;
+        line-height: 1.15;
+    }
+
+    .legal-formal-intro h2 {
+        font-size: 30px;
+        line-height: 1.2;
+    }
+}

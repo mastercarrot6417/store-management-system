@@ -86,12 +86,13 @@ Also add redirects from the old `.php` addresses (for example `product_detail.ph
 - [ ] Deploy the test page to `*.workers.dev`
 
 ### Phase 1: Foundation (week 2)
-- [ ] Page layouts (public and admin)
-- [ ] Database helper
-- [ ] Sessions table and cookie handling
-- [ ] CSRF protection
-- [ ] Error pages (never show raw database errors to visitors)
-- [ ] Environment settings and secrets (`wrangler secret put`)
+- [x] Page layouts (public and admin), checked in a browser
+- [x] Database helper (uncached by default; Malaysia time kept as stored)
+- [x] Sessions table and cookie handling (migration `0004`, daily clean-up cron)
+- [x] CSRF protection (origin check everywhere + token on logged-in forms)
+- [x] Error pages (never show raw database errors to visitors)
+- [x] Environment settings and secrets (`COOKIE_SECRET`, map link)
+- [x] Automated tests (32, on an in-memory Postgres) and `npm run dev:local`
 
 ### Phase 2: Public shop (weeks 3–4)
 - [ ] Homepage with search, filters, and the trending and new sections
