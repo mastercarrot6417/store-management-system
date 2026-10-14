@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "store-workers", "run", "dev:local"],
       "port": 8787
+    },
+    {
+      "name": "store-workers-dev-db",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "store-workers", "run", "dev", "--", "--port", "8788"],
+      "port": 8788
     }
   ]
 }

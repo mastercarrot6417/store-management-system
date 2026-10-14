@@ -9,7 +9,8 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p test",
     "cf-typegen": "wrangler types",
     "db:migrate": "node --env-file-if-exists=.env scripts/migrate.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:copy-catalogue": "node --env-file-if-exists=.env scripts/copy-catalogue.mjs"
   },
   "dependencies": {
     "hono": "^4.13.13",

@@ -15,6 +15,8 @@ Run these from inside the `store-workers/` folder.
 | `npm run cf-typegen` | Regenerates `worker-configuration.d.ts` after changing `wrangler.jsonc` |
 | `npm run db:migrate` | Shows the target database and pending migrations (changes nothing) |
 | `npm run db:migrate -- --apply` | Applies pending migrations |
+| `npm run db:copy-catalogue` | Shows what would be copied from production into the dev database (reads production read-only; changes nothing) |
+| `npm run db:copy-catalogue -- --apply` | Copies products, colours, images, sizes and stock history into the dev database. Add `--replace` to refresh an existing copy. Never copies customers or admins |
 | `npm run deploy` | Deploys to Cloudflare |
 
 ## Phase 0 setup (needs your accounts)

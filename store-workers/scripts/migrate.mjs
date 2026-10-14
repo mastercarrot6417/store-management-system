@@ -25,14 +25,20 @@ console.log(`Target database: ${hostname} (user ${username})`);
 const sql = postgres(url, { max: 1, onnotice: () => {} });
 
 try {
-  await sql`
-    CREATE TABLE IF NOT EXISTS public.schema_migrations (
-      name TEXT PRIMARY KEY,
-      applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )`;
-  await sql`ALTER TABLE public.schema_migrations ENABLE ROW LEVEL SECURITY`;
+  // A dry run must not write anything, so only create the tracking table when applying.
+  const [{ exists }] = await sql`SELECT to_regclass('public.schema_migrations') IS NOT NULL AS exists`;
+  if (apply && !exists) {
+    await sql`
+      CREATE TABLE public.schema_migrations (
+        name TEXT PRIMARY KEY,
+        applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )`;
+    await sql`ALTER TABLE public.schema_migrations ENABLE ROW LEVEL SECURITY`;
+  }
 
-  const applied = new Set((await sql`SELECT name FROM public.schema_migrations`).map((r) => r.name));
+  const applied = new Set(
+    exists || apply ? (await sql`SELECT name FROM public.schema_migrations`).map((r) => r.name) : [],
+  );
   const pending = readdirSync(migrationsDir)
     .filter((f) => f.endsWith(".sql"))
     .sort()
