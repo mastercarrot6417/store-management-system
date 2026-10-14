@@ -1,0 +1,4 @@
+# Keep the Workers rewrite out of the PHP Docker image.
+store-workers/
+.git/
+.codex/
