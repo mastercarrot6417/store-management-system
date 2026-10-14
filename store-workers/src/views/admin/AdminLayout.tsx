@@ -29,7 +29,8 @@ const NAV: { key: AdminNavKey; href: string; label: string; icon: keyof typeof I
 type AdminLayoutProps = {
   title: string;
   admin: AdminUser;
-  active: AdminNavKey;
+  /** Highlighted sidebar link, or null for none. */
+  active: AdminNavKey | null;
   flash: Flash | null;
   children: Child;
 };
@@ -44,8 +45,8 @@ export function AdminLayout({ title, admin, active, flash, children }: AdminLayo
       title={`${title} - My Dream Bike Admin`}
       fonts="admin"
       bodyClass="admin-panel-body"
-      stylesheets={["/assets/css/style.css", "/assets/css/admin.css"]}
-      scripts={["/assets/js/app.js", "/assets/js/admin.js"]}
+      stylesheets={["/assets/css/style.css", "/assets/css/admin.css", "/assets/css/admin-pages.css"]}
+      scripts={["/assets/js/app.js", "/assets/js/image-fallback.js", "/assets/js/admin.js"]}
     >
       <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleAdminSidebar(false)"></div>
       <div class="admin-wrapper">

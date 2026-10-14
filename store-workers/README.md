@@ -72,8 +72,9 @@ Pushing to GitHub then builds the Worker (Workers Builds, root directory `store-
 - `0003_enable_rls.sql`: turns on Row Level Security for every table.
 - `0004_sessions.sql`: the `sessions` table for admin and customer logins in the new app.
 - `0005_malaysia_timezone.sql`: makes Malaysia time the database default, so times saved by the new app match the times the PHP site saves.
+- `0006_product_archive.sql`: adds `products.archived_at`, used by the new admin's "Archive" (replaces "Delete"). The admin pages need it.
 
-All five are safe to run on production: they only add what's missing, and the PHP site already uses Malaysia time. Run them on dev first, and on production only when you're ready.
+All six are safe to run on production: they only add what's missing, and the PHP site already uses Malaysia time. Run them on dev first, and on production only when you're ready.
 
 New database changes go in a new numbered file. Never edit a migration that has already been applied.
 
@@ -82,7 +83,10 @@ New database changes go in a new numbered file. Never edit a migration that has 
 | Path | What's in it |
 |---|---|
 | `src/index.tsx` | App setup: security headers, CSRF origin check, database, error pages, daily cron |
-| `src/routes/` | Pages: `public.tsx` (homepage, search, product, legal), `account.tsx` (customer login, sign-up, account, Google login), `admin.tsx` (admin panel and admin login), `uploads.ts` (product images from R2), `legacy.ts` (redirects from old `.php` addresses) |
+| `src/routes/` | Pages: `public.tsx` (homepage, search, product, legal), `account.tsx` (customer login, sign-up, account, Google login), `admin.tsx` (admin login, dashboard, and the admin sections below), `uploads.ts` (product images from R2), `legacy.ts` (redirects from old `.php` addresses) |
+| `src/routes/admin/` | Admin sections: `products.tsx` (list, add, edit, archive), `colours.tsx` (colours and photo uploads), `stock.tsx` (Stock In / Out), `reports.tsx` (stock report, CSV, print) |
+| `src/lib/admin/` | Admin queries: products, colours, `inventory.ts` (Stock In / Out transactions), dashboard, stock report |
+| `src/lib/images.ts` | Photo uploads to R2 (type checked from the file's contents, max 5 MB, 5 per upload) |
 | `src/views/` | Layouts and page parts (navbar, footer, admin sidebar, login pages, error page) |
 | `src/views/legal/` | Privacy, terms and cookie text (plain HTML, edit directly) |
 | `src/lib/products.ts` | Product queries for the shop (never selects boss-only prices) |
@@ -111,6 +115,28 @@ Admins and customers have separate login cookies. The admin one is only sent to 
 ## Product images
 
 Images are served from R2 at the same paths the PHP site used (`/uploads/pimg_...jpg`), so the paths stored in the database don't change. Before go-live (Phase 5), copy everything in the PHP site's `uploads/` folder into the `store-images` bucket under `uploads/`.
+
+## Admin panel
+
+| Page | Address |
+|---|---|
+| Dashboard | `/admin` |
+| Products (and archived products) | `/admin/products`, `/admin/products?view=archived` |
+| Add / edit product | `/admin/products/new`, `/admin/products/<id>/edit` |
+| Colours & images | `/admin/products/<id>/colours` |
+| Stock In / Stock Out | `/admin/stock/in`, `/admin/stock/out` |
+| Stock report, CSV, print | `/admin/reports/stock`, `/admin/reports/stock/export.csv`, `/admin/reports/stock/print` |
+
+The old `admin/*.php` addresses redirect to these.
+
+Differences from the PHP admin:
+
+- **Archive instead of delete** (boss only). The PHP "Delete" removed the product's stock rows and its whole stock history. Archiving keeps everything; the product is hidden from the shop (status Hidden, so the PHP site hides it too), from the product list and from Stock In / Out. Restore it from the Archived tab.
+- **Boss-only prices stay boss-only everywhere.** Staff admins no longer see the online sell price on the product list, the stock report or its CSV / print (the PHP pages showed it there).
+- **Stock In / Out lock the product** while saving, so two people moving stock at once can't lose a change or take stock below zero. Quantities are capped at 100,000 per movement, and the reason must be one from the list.
+- **Colour codes** must be `#` plus 6 hex digits on every save (the PHP page accepted anything when adding).
+- **Photos** are checked by their contents, not the file name, so only real JPEG, PNG, GIF and WebP images are stored. Deleting a photo or colour also deletes the file from R2 (unless another row still uses the same path).
+- **Categories** come from the shop menus (`src/lib/catalog.ts`), so every new product appears under a menu. Older products keep their saved category.
 
 ## Logins
 

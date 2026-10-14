@@ -108,12 +108,14 @@ Also add redirects from the old `.php` addresses (for example `product_detail.ph
 - [x] Test the `$2y$` → `$2a$` password check with real hashes (checked both ways with real PHP hashes; bcryptjs accepts $2y$ directly)
 
 ### Phase 4: Admin (weeks 6–8)
-- [ ] Dashboard
-- [ ] Product list, add and edit pages
-- [ ] **Archive instead of delete**, so stock history is never lost
-- [ ] Colour and image management with uploads to R2 (validate colour codes on every save)
-- [ ] Stock In/Out using the same transaction and `FOR UPDATE` row-locking approach
-- [ ] Stock report with filters, CSV export and the print view
+- [x] Dashboard
+- [x] Product list, add and edit pages
+- [x] **Archive instead of delete**, so stock history is never lost (migration `0006`, boss only, restorable)
+- [x] Colour and image management with uploads to R2 (validate colour codes on every save; image type checked from file contents)
+- [x] Stock In/Out using the same transaction and `FOR UPDATE` row-locking approach (the product row is locked too)
+- [x] Stock report with filters, CSV export and the print view
+- [x] Redirects from the old `admin/*.php` addresses
+- [ ] Apply migration `0006` to the dev database (`npm run db:migrate -- --apply`)
 
 ### Phase 5: Go live with the same features (week 9)
 - [ ] Run the old PHP site and the new site side by side on the same data copy and compare every page

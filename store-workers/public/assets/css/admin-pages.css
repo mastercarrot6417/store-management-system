@@ -1,0 +1,303 @@
+/*
+ * Admin page styles that the PHP pages kept in inline <style> blocks
+ * (add_product.php, edit_product.php, manage_product_colors.php), plus a few
+ * small additions for the new admin (archive, view tabs, helper text).
+ */
+
+/* Without this, a wide table stretches the whole page sideways instead of scrolling
+   inside its .table-scroll-wrap (flex items don't shrink below their content by default). */
+.admin-content { min-width: 0; }
+
+/* ---- Product form ---- */
+.form-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ff7a00;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.form-section-spaced { margin-top: 28px; }
+.form-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+.boss-only-box { border: 1px solid #ff7a00; background: #fff7ef; border-radius: 10px; padding: 18px 18px 6px; margin: 18px 0 20px; }
+.boss-note { margin: -6px 0 14px; color: #666; font-size: 13px; }
+
+.colors-cta-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #1d1f22 0%, #2c2f36 100%);
+    border: 1px solid #ff7a00;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.colors-cta-left { display: flex; align-items: center; gap: 16px; }
+.colors-cta-icon { font-size: 32px; line-height: 1; }
+.colors-cta-title { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+.colors-cta-sub { color: #aaa; font-size: 13px; }
+.btn-manage-colors {
+    background: #ff7a00;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background .2s, transform .2s;
+}
+.btn-manage-colors:hover { background: #e86f00; transform: translateX(2px); }
+
+.stock-lock-note {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #7c2d12;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.55;
+}
+.stock-readonly-wrap table { min-width: 620px; }
+
+/* ---- Archive ---- */
+.archived-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    color: #374151;
+    font-size: 14px;
+}
+.status-badge.status-archived { background: #e5e7eb; color: #374151; }
+.admin-inline-form { display: inline; margin: 0; }
+.product-view-tabs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.product-view-tabs a {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    font-size: 13px;
+    font-weight: 600;
+}
+.product-view-tabs a.active { background: #ff7a00; border-color: #ff7a00; color: #fff; }
+
+/* ---- Small text helpers (replace inline style="..." from the PHP pages) ---- */
+.admin-muted-small { color: #6b7280; font-size: 12px; }
+.admin-muted-text, .admin-muted-cell { color: #6b7280; }
+.admin-empty-text { color: #888; padding: 20px 0; }
+.admin-empty-text a { color: #ff7a00; }
+
+/* ---- Colours & Images (was manage_product_colors.php) ---- */
+.mpc-page {
+    --mpc-border: #e5e7eb;
+    --mpc-text: #222;
+    --mpc-muted: #666;
+    --mpc-orange: #ff7a00;
+    --mpc-orange-soft: rgba(255, 122, 0, 0.10);
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10px 10px 30px;
+    color: var(--mpc-text);
+}
+.mpc-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid var(--mpc-border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    margin-bottom: 18px;
+}
+.mpc-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mpc-orange);
+    font-weight: 800;
+}
+.mpc-title { margin: 0; font-size: 28px; font-weight: 800; color: #222; }
+.mpc-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.mpc-pill {
+    border: 1px solid var(--mpc-border);
+    background: #fff;
+    color: #444;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+}
+.mpc-pill-archived { background: #e5e7eb; color: #374151; font-weight: 700; }
+.mpc-toolbar { display: flex; flex-direction: column; gap: 10px; min-width: 220px; }
+.mpc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--mpc-border);
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.mpc-btn:hover { transform: translateY(-1px); }
+.mpc-btn-block { width: 100%; }
+.mpc-btn-primary { background: var(--mpc-orange); color: #111; border-color: #ff993f; }
+.mpc-btn-ghost { background: #fff; color: #333; }
+.mpc-btn-danger { background: #fff5f5; color: #b91c1c; border-color: #fecaca; }
+.mpc-btn:disabled, .mpc-btn[disabled] { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.3); transform: none; }
+.mpc-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 18px; }
+.mpc-panel {
+    background: #fff;
+    border: 1px solid var(--mpc-border);
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+.mpc-panel + .mpc-panel { margin-top: 18px; }
+.mpc-panel h3 { margin: 0 0 14px; font-size: 17px; color: #222; }
+.mpc-field { margin-bottom: 14px; }
+.mpc-label { display: block; margin-bottom: 8px; font-weight: 700; color: #333; }
+.mpc-input, .mpc-color-input {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 12px;
+    border: 1px solid var(--mpc-border);
+    background: #fff;
+    color: #222;
+    padding: 11px 12px;
+}
+.mpc-color-picker-wrap { display: flex; gap: 10px; align-items: center; }
+.mpc-color-input { padding: 4px; width: 62px; min-width: 62px; height: 44px; }
+.mpc-check { display: flex; align-items: center; gap: 10px; color: #444; }
+.mpc-tip-list { margin: 0; padding-left: 18px; color: var(--mpc-muted); }
+.mpc-tip-list li { margin-bottom: 8px; }
+.mpc-main { display: flex; flex-direction: column; gap: 18px; }
+.mpc-empty {
+    text-align: center;
+    padding: 40px 20px;
+    border-radius: 18px;
+    border: 1px dashed var(--mpc-border);
+    background: #fff;
+}
+.mpc-empty h3 { margin-top: 0; }
+.mpc-empty p { color: var(--mpc-muted); margin-bottom: 0; }
+.mpc-cards { display: grid; gap: 18px; }
+.mpc-card {
+    background: #ffffff;
+    border: 1px solid var(--mpc-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+.mpc-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.mpc-card-title-wrap { display: flex; gap: 14px; align-items: center; }
+.mpc-swatch { width: 52px; height: 52px; border-radius: 16px; border: 1px solid #ddd; flex-shrink: 0; }
+.mpc-card-title { margin: 0; font-size: 22px; font-weight: 800; color: #222; }
+.mpc-card-sub { margin-top: 6px; color: var(--mpc-muted); }
+.mpc-default-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--mpc-orange-soft);
+    color: #b45309;
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 8px;
+}
+.mpc-card-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.mpc-card-actions form { margin: 0; }
+.mpc-card-body { padding: 20px; display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 18px; }
+.mpc-edit-grid { display: grid; gap: 14px; align-content: start; }
+.mpc-default-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: #fafafa;
+    border: 1px solid var(--mpc-border);
+}
+.mpc-default-row label { font-weight: 700; color: #333; }
+.mpc-images { display: grid; gap: 14px; }
+.mpc-image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.mpc-image-tile, .mpc-upload-tile { background: #ffffff; border: 1px solid var(--mpc-border); border-radius: 18px; overflow: hidden; }
+.mpc-image-preview { position: relative; aspect-ratio: 1 / 1; background: #f5f5f5; }
+.mpc-image-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mpc-image-missing { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 13px; }
+.mpc-main-image-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 122, 0, 0.95);
+    color: #141414;
+    font-size: 12px;
+    font-weight: 800;
+}
+.mpc-image-actions { padding: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mpc-image-actions form { margin: 0; }
+.mpc-mini-btn {
+    width: 100%;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--mpc-border);
+    background: #fff;
+    color: #333;
+    font-weight: 700;
+    cursor: pointer;
+}
+.mpc-mini-btn:disabled { cursor: default; opacity: 0.7; }
+.mpc-mini-btn-danger { background: #fff5f5; color: #b91c1c; border-color: #fecaca; }
+.mpc-upload-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 214px;
+    padding: 16px;
+    border-style: dashed;
+    text-align: center;
+}
+.mpc-upload-tile strong { font-size: 18px; color: #222; }
+.mpc-upload-tile p { color: var(--mpc-muted); margin: 8px 0 14px; }
+.mpc-upload-tile form { position: relative; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.mpc-upload-tile.is-uploading { opacity: 0.6; pointer-events: none; }
+/* Visually hidden but still focusable and usable by "required" validation. */
+.mpc-upload-input { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+
+@media (max-width: 1040px) {
+    .mpc-layout, .mpc-card-body { grid-template-columns: 1fr; }
+    .mpc-topbar { flex-direction: column; align-items: stretch; }
+}
+@media (max-width: 560px) {
+    .mpc-card-head { flex-direction: column; }
+    .mpc-title { font-size: 22px; }
+}

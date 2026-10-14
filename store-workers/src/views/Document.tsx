@@ -2,7 +2,7 @@ import type { Child } from "hono/jsx";
 import { raw } from "hono/html";
 
 /** Bump when CSS/JS in public/ changes, so browsers fetch the new files. */
-const ASSET_VERSION = "4";
+const ASSET_VERSION = "5";
 
 export function asset(path: string): string {
   return `${path}?v=${ASSET_VERSION}`;

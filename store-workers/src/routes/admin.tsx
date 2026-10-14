@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { bodyLimit } from "hono/body-limit";
 import { requireCsrfToken } from "../lib/csrf";
 import { setFlash } from "../lib/flash";
 import { adminSessionMiddleware, endSession, requireAdmin, startSession } from "../lib/session";
@@ -6,9 +7,17 @@ import { findAdminForLogin, findAdminIdByEmail } from "../lib/accounts";
 import { ADMIN_GOOGLE, finishGoogleLogin, googleConfigured, startGoogleLogin } from "../lib/google";
 import { verifyPassword } from "../lib/passwords";
 import { allowLoginAttempt, TOO_MANY_ATTEMPTS } from "../lib/rate-limit";
+import { getDashboard } from "../lib/admin/dashboard";
+import { malaysiaToday } from "../lib/format";
+import { MAX_IMAGE_BYTES, MAX_IMAGES_PER_UPLOAD } from "../lib/images";
 import type { AppEnv } from "../types";
-import { AdminLayout } from "../views/admin/AdminLayout";
+import { DashboardPage } from "../views/admin/DashboardPage";
 import { AdminLoginPage } from "../views/auth/AuthPages";
+import colourRoutes from "./admin/colours";
+import productRoutes from "./admin/products";
+import reportRoutes from "./admin/reports";
+import { currentAdmin, renderAdmin } from "./admin/shared";
+import stockRoutes from "./admin/stock";
 import { formText } from "./render";
 
 const adminRoutes = new Hono<AppEnv>();
@@ -74,19 +83,31 @@ adminRoutes.get("/logout", async (c) => {
 
 // ---- Everything below needs an admin login, and forms need the session's CSRF token ----
 
+// Photo uploads are the biggest posts. Anything larger is refused before it's read into memory.
+const MAX_ADMIN_POST_BYTES = MAX_IMAGES_PER_UPLOAD * MAX_IMAGE_BYTES + 1024 * 1024;
+adminRoutes.use(
+  "*",
+  bodyLimit({
+    maxSize: MAX_ADMIN_POST_BYTES,
+    onError: (c) =>
+      c.text(`That upload is too large. Please upload at most ${MAX_IMAGES_PER_UPLOAD} photos of up to 5 MB each.`, 413),
+  }),
+);
 adminRoutes.use("*", requireAdmin, requireCsrfToken((c) => c.var.adminSession));
 
-// Placeholder until the real dashboard is ported in Phase 4.
-adminRoutes.get("/", (c) => {
-  const admin = c.var.adminSession!.user;
-  return c.html(
-    <AdminLayout title="Dashboard" admin={admin} active="dashboard" flash={c.var.flash}>
-      <div class="admin-card">
-        <h3 class="admin-card-title">New admin panel</h3>
-        <p>The dashboard, products and stock pages arrive in Phase 4 of the rewrite.</p>
-      </div>
-    </AdminLayout>,
+adminRoutes.get("/", async (c) => {
+  const admin = currentAdmin(c);
+  const data = await getDashboard(c.var.db, admin.role === "boss");
+  return renderAdmin(
+    c,
+    { title: "Dashboard", active: "dashboard" },
+    <DashboardPage data={data} adminName={admin.displayName} today={malaysiaToday()} />,
   );
 });
+
+adminRoutes.route("/products", productRoutes);
+adminRoutes.route("/products", colourRoutes);
+adminRoutes.route("/stock", stockRoutes);
+adminRoutes.route("/reports", reportRoutes);
 
 export default adminRoutes;

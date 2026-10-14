@@ -54,7 +54,7 @@ export function isInStock(p: { status: string; totalQuantity: number }): boolean
 }
 
 /** The product's card image: default colour's main image first, then the legacy products.image column. */
-function displayImage(sql: Sql) {
+export function displayImage(sql: Sql) {
   return sql`COALESCE(
     (SELECT pi.image_path
      FROM product_images pi
@@ -77,8 +77,19 @@ function cardSelect(sql: Sql) {
 }
 
 /** Makes % and _ in the search text match literally instead of acting as wildcards. */
-function escapeLike(text: string): string {
+export function escapeLike(text: string): string {
   return text.replace(/[\\%_]/g, "\\$&");
+}
+
+/** ORDER BY for a `size` column in shop order: XS, S, M, L, XL, XXL, XXXL, Free Size, then the rest A-Z. */
+export function sizeOrder(sql: Sql) {
+  return sql`
+    CASE UPPER(TRIM(size))
+      WHEN 'XS' THEN 1 WHEN 'S' THEN 2 WHEN 'M' THEN 3 WHEN 'L' THEN 4
+      WHEN 'XL' THEN 5 WHEN 'XXL' THEN 6 WHEN 'XXXL' THEN 7 WHEN 'FREE SIZE' THEN 8
+      ELSE 99
+    END,
+    size ASC`;
 }
 
 export type ProductFilters = { search: string; category: string; subCategory: string };
@@ -189,13 +200,7 @@ export async function getProductPage(sql: Sql, id: number): Promise<ProductPageD
       SELECT color_id, TRIM(size) AS size, COALESCE(quantity, 0) AS quantity
       FROM product_sizes
       WHERE product_id = ${id} AND NULLIF(TRIM(size), '') IS NOT NULL
-      ORDER BY
-        CASE UPPER(TRIM(size))
-          WHEN 'XS' THEN 1 WHEN 'S' THEN 2 WHEN 'M' THEN 3 WHEN 'L' THEN 4
-          WHEN 'XL' THEN 5 WHEN 'XXL' THEN 6 WHEN 'XXXL' THEN 7 WHEN 'FREE SIZE' THEN 8
-          ELSE 99
-        END,
-        size ASC`,
+      ORDER BY ${sizeOrder(sql)}`,
     discoverMoreProducts(sql, id, product.category, product.sub_category),
   ]);
 

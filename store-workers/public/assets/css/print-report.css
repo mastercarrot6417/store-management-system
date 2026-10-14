@@ -1,0 +1,37 @@
+/* Printable stock report (was the inline <style> in admin/print_stock_report.php). */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, Arial, sans-serif; color: #111827; background: #f3f4f6; }
+.print-shell { max-width: 1180px; margin: 24px auto; background: #fff; padding: 28px; border-radius: 16px; box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12); }
+.print-topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; border-bottom: 2px solid #111827; padding-bottom: 18px; margin-bottom: 22px; flex-wrap: wrap; }
+.print-brand { display: flex; align-items: center; gap: 14px; }
+.print-brand img { width: 74px; height: 74px; object-fit: contain; }
+.print-brand h1 { margin: 0; font-size: 26px; letter-spacing: -0.02em; }
+.print-brand p, .print-meta p { margin: 4px 0; color: #4b5563; font-size: 13px; }
+.print-actions { display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 18px; }
+.print-btn { border: 0; border-radius: 10px; padding: 10px 14px; cursor: pointer; font-weight: 700; font-size: 14px; text-decoration: none; color: #fff; background: #f97316; display: inline-block; font-family: inherit; }
+.print-btn.secondary { background: #374151; }
+.filter-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; margin: 14px 0 20px; padding: 14px; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; font-size: 12px; }
+.filter-summary span { color: #6b7280; display: block; margin-bottom: 3px; }
+.report-section { margin-top: 30px; overflow-x: auto; }
+.report-section h2 { margin: 0 0 8px; font-size: 18px; color: #111827; }
+.report-count { color: #6b7280; margin-bottom: 12px; font-size: 13px; }
+table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
+th { background: #111827; color: #fff; text-align: left; padding: 9px 7px; border: 1px solid #111827; }
+td { padding: 8px 7px; border: 1px solid #d1d5db; vertical-align: top; }
+tr:nth-child(even) td { background: #f9fafb; }
+.badge { display: inline-block; padding: 3px 7px; border-radius: 999px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.badge.in, .badge.stock-in { background: #dcfce7; color: #166534; }
+.badge.low { background: #fef3c7; color: #92400e; }
+.badge.out, .badge.stock-out { background: #fee2e2; color: #991b1b; }
+.empty { padding: 18px; border: 1px dashed #d1d5db; color: #6b7280; border-radius: 12px; background: #f9fafb; }
+@media (max-width: 640px) {
+    .print-shell { margin: 0; padding: 16px; border-radius: 0; }
+}
+@media print {
+    body { background: #fff; }
+    .print-shell { max-width: none; margin: 0; padding: 0; border-radius: 0; box-shadow: none; }
+    .print-actions { display: none; }
+    .report-section { overflow: visible; }
+    table { page-break-inside: auto; }
+    tr { page-break-inside: avoid; page-break-after: auto; }
+}
