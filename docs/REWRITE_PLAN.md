@@ -95,9 +95,10 @@ Also add redirects from the old `.php` addresses (for example `product_detail.ph
 - [x] Automated tests (32, on an in-memory Postgres) and `npm run dev:local`
 
 ### Phase 2: Public shop (weeks 3–4)
-- [ ] Homepage with search, filters, and the trending and new sections
-- [ ] Product page with the colour/size/image data the page's script needs (use safe JSON output so a `</script>` in a colour name can't break the page)
-- [ ] Legal pages
+- [x] Homepage with search, filters, and the trending and new sections (+ redirects from `index.php`)
+- [x] Product page with the colour/size/image data the page's script needs (use safe JSON output so a `</script>` in a colour name can't break the page) (+ redirects from `product_detail.php`)
+- [x] Legal pages (+ redirects from `legal/*.php`)
+- [x] Product images served from R2 at the same `/uploads/...` paths
 
 ### Phase 3: Logins (week 5)
 - [ ] Customer login, signup and Google login

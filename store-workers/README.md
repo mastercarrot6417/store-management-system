@@ -9,7 +9,7 @@ Run these from inside the `store-workers/` folder.
 | Command | What it does |
 |---|---|
 | `npm run dev` | Runs the Worker locally at http://localhost:8787, using the database in `.env` |
-| `npm run dev:local` | Runs the Worker with a throwaway in-memory database and demo logins. No Supabase needed |
+| `npm run dev:local` | Runs the Worker with a throwaway in-memory database, demo products and demo logins. No Supabase needed |
 | `npm test` | Runs the automated tests (uses its own in-memory database, never Supabase) |
 | `npm run typecheck` | Checks the TypeScript (app and tests) for errors |
 | `npm run cf-typegen` | Regenerates `worker-configuration.d.ts` after changing `wrangler.jsonc` |
@@ -62,7 +62,7 @@ Then deploy:
 ```bash
 npm run deploy
 ```
-Open `https://store-workers.<your-subdomain>.workers.dev/_health`. It should show `{"db":"ok"}`.
+Open `https://store-management-system.<your-subdomain>.workers.dev/_health`. It should show `{"db":"ok"}`.
 
 ## Migrations
 
@@ -81,8 +81,10 @@ New database changes go in a new numbered file. Never edit a migration that has 
 | Path | What's in it |
 |---|---|
 | `src/index.tsx` | App setup: security headers, CSRF origin check, database, error pages, daily cron |
-| `src/routes/` | Pages: `public.tsx` (shop) and `admin.tsx` (admin panel) |
+| `src/routes/` | Pages: `public.tsx` (homepage, search, product, legal), `admin.tsx` (admin panel), `uploads.ts` (product images from R2), `legacy.ts` (redirects from old `.php` addresses) |
 | `src/views/` | Layouts and page parts (navbar, footer, admin sidebar, error page) |
+| `src/lib/products.ts` | Product queries for the shop (never selects boss-only prices) |
+| `src/views/legal/` | Privacy, terms and cookie text (plain HTML, edit directly) |
 | `src/lib/db.ts` | Database clients: `c.var.db` (uncached, the default) and `c.var.dbCached` (public catalogue only) |
 | `src/lib/session.ts` | Admin and customer logins (cookie + `sessions` table) |
 | `src/lib/csrf.tsx` | CSRF protection: origin check everywhere, plus a token on logged-in forms (`<CsrfField>`) |
@@ -91,3 +93,15 @@ New database changes go in a new numbered file. Never edit a migration that has 
 | `test/` | Automated tests |
 
 Admins and customers have separate login cookies. The admin one is only sent to `/admin` pages. Admin sessions end after 2 hours idle or 12 hours total; customer sessions after 30 days idle or 90 days total.
+
+## Settings in wrangler.jsonc
+
+| Setting | What it's for |
+|---|---|
+| `COMPANY_MAP_LINK` | Google Maps link for "Store Location" / "Visit Our Store". Empty = a search for the shop name |
+| `COMPANY_MAP_QUERY` | What the homepage map shows (`MY DREAM BIKE SDN BHD`) |
+| `GOOGLE_MAPS_API_KEY` | Maps Embed API key for the homepage map. Visible in the page, so restrict it to your domain in Google Cloud Console. Empty = a "Find us in-store" box |
+
+## Product images
+
+Images are served from R2 at the same paths the PHP site used (`/uploads/pimg_...jpg`), so the paths stored in the database don't change. Before go-live (Phase 5), copy everything in the PHP site's `uploads/` folder into the `store-images` bucket under `uploads/`.

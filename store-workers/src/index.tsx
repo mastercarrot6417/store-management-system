@@ -7,7 +7,9 @@ import { connectUncached, dbMiddleware } from "./lib/db";
 import { flashMiddleware } from "./lib/flash";
 import { deleteExpiredSessions } from "./lib/session";
 import adminRoutes from "./routes/admin";
+import legacyRoutes from "./routes/legacy";
 import publicRoutes from "./routes/public";
+import uploadRoutes from "./routes/uploads";
 import type { AppEnv } from "./types";
 import { ErrorPage } from "./views/ErrorPage";
 
@@ -37,6 +39,9 @@ app.get("/_health", async (c) => {
   }
 });
 
+// Old PHP addresses first, so /admin/login.php etc. redirect instead of reaching the admin pages.
+app.route("/", legacyRoutes);
+app.route("/uploads", uploadRoutes);
 app.route("/admin", adminRoutes);
 app.route("/", publicRoutes);
 

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "store-workers",
+  "name": "store-management-system",
   "main": "src/index.tsx",
   "compatibility_date": "2026-10-01",
   // postgres.js needs Node.js APIs (net, tls, crypto).
@@ -13,7 +13,11 @@
   "vars": {
     "COMPANY_MAP_QUERY": "MY DREAM BIKE SDN BHD",
     // Google Maps link for the store (footer "Store Location"). Empty = search link for the shop name.
-    "COMPANY_MAP_LINK": ""
+    "COMPANY_MAP_LINK": "",
+    // Google Maps Embed API key for the homepage map. It's visible in the page anyway,
+    // so it isn't a secret: restrict it to your domain in Google Cloud Console.
+    // Empty = show a "Find us in-store" box instead of the map.
+    "GOOGLE_MAPS_API_KEY": ""
   },
 
   // Set with `npx wrangler secret put <NAME>`; locally in .env (see .env.example).
