@@ -115,7 +115,7 @@ Also add redirects from the old `.php` addresses (for example `product_detail.ph
 - [x] Stock In/Out using the same transaction and `FOR UPDATE` row-locking approach (the product row is locked too)
 - [x] Stock report with filters, CSV export and the print view
 - [x] Redirects from the old `admin/*.php` addresses
-- [ ] Apply migration `0006` to the dev database (`npm run db:migrate -- --apply`)
+- [x] Apply migration `0006` to the dev database
 
 ### Phase 5: Go live with the same features (week 9)
 - [ ] Run the old PHP site and the new site side by side on the same data copy and compare every page
