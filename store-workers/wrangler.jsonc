@@ -31,12 +31,12 @@
     {
       // Public shop pages: read queries may be cached for a short time.
       "binding": "HYPERDRIVE",
-      "id": "REPLACE_WITH_CACHED_HYPERDRIVE_ID"
+      "id": "6efc5b413fe04b05ae5abc861050b8d8"
     },
     {
       // Admin, stock and checkout: caching disabled so stock is never stale.
       "binding": "HYPERDRIVE_NOCACHE",
-      "id": "REPLACE_WITH_NOCACHE_HYPERDRIVE_ID"
+      "id": "d76f999f1afc4422baa1cb93fa0527d2"
     }
   ],
 
